@@ -1,27 +1,37 @@
-# auto-factcheck
+This repository (repo) contains source code for [KIICE paper of mine](https://www.dbpia.co.kr/Journal/articleDetail?nodeId=NODE10608071).
 
-This repository is published as research paper entitled "Automated Fact Checking Model Using Efficient Transfomer."
+In this paper, we present Transformer-based fact checking model which improves computational efficiency. Locality Sensitive Hashing (LSH) is employed to efficiently compute attention value so that it can reduce the computation time. With LSH, model can group semantically similar words, and compute attention value within the group. The performance of proposed model is 75% for accuracy, 42.9% and 75% for Fl micro score and F1 macro score, respectively.
 
-## Abstract
+As a result, we awarded best paper in 2021 KIICE spring conference.
 
-Nowadays, fake news from newspapers and social media is a serious issue in news credibility. Some of machine learning methods (such as LSTM, logistic regression, and Transformer) has been applied for fact checking. In this paper, we present Transformer-based fact checking model which improves computational efficiency. Locality Sensitive Hashing (LSH) is employed to efficiently compute attention value so that it can reduce the computation time. With LSH, model can group semantically similar words, and compute attention value within the group. The performance of proposed model is 75% for accuracy, 42.9% and 75% for Fl micro score and F1 macro score, respectively.
+## Usage
+Our code is written in Windows device. Please be aware of that.
 
-## Architecture
+First, you need to install required libraries with this command:
 
-<img src="img/model.png">
+```python
+pip install -r requirements.txt
+```
 
-## Dataset
+If you want to run our code, please input this command
 
-We used PHEME dataset for training and validating model. PHEME dataset consists of news tweet and their retweets related to issue such as Charlie Hebdo. Tweets in the dataset is labeled as rumour/non-rumour.
+```
+./src/execute.bat
+```
 
-## Result
+Plus, to perform research, we applied PHEME dataset to validate out proposed model, and we preprocessed that dataset.
 
-When comparing performance with BERT, Bi-LSTM, Bi-RNN, and Bi-GRU, the proposed model shows that it has better result than sequential models (Bi-LSTM, Bi-RNN, and Bi-GRU). However, when comparing BERT, it shows lower result but the proposed model shows less time in training.
+So if you want to follow our path from scratch, you need to execute this code.
 
-|Models|Accuracy|F1-score (Micro)|F1-score (Macro)|Train time (s)|
-|-------|-------|-------|-------|-------|
-|Proposed|0.75|0.429|0.75|1245|
-|Bi-LSTM|0.656|0.656|0.396|216|
-|Bi-GRU|0.656|0.656|0.396|216|
-|Bi-RNN|0.656|0.656|0.396|216|
-|BERT|0.999|0.999|0.999|3833|
+```
+./src/dataset.bat
+```
+
+## Tech Stack
+
+* Data: Pandas, Numpy, Scikit-learn
+* AI: Transformers, PyTorch
+
+## License
+
+[GNU GENERAL PUBLIC](LICENSE) © Hee Seung Yun

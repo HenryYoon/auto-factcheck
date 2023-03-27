@@ -31,7 +31,9 @@ LEARNING_RATE = 1e-05
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-model = BertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=2)
+model = BertForSequenceClassification.from_pretrained(
+    'bert-base-uncased', num_labels=2)
+
 
 class CustomDataset(Dataset):
     def __init__(self, data, tokenizer, maxlen):
@@ -77,13 +79,14 @@ def create_dataloader(df, tokenizer, max_len, batch_size):
 
 
 df = pd.read_csv("D:/Dropbox/coding/auto-factcheck/dataset/tweets.csv")
-df_train, df_test = train_test_split(df, test_size=TEST_SIZE, random_state=RANDOM_SEED)
-df_val, df_test = train_test_split(df_test, test_size=.5, random_state=RANDOM_SEED)
+df_train, df_test = train_test_split(
+    df, test_size=TEST_SIZE, random_state=RANDOM_SEED)
+df_val, df_test = train_test_split(
+    df_test, test_size=.5, random_state=RANDOM_SEED)
 
 train = create_dataloader(df_train, tokenizer, MAX_LEN, batch_size=BATCH)
 val = create_dataloader(df_val, tokenizer, MAX_LEN, batch_size=BATCH)
 test = create_dataloader(df_test, tokenizer, MAX_LEN, batch_size=BATCH)
-
 
 
 model = model.to(device)
@@ -96,6 +99,7 @@ scheduler = get_linear_schedule_with_warmup(
     num_warmup_steps=0,
     num_training_steps=total_steps
 )
+
 
 def train_epoch(model, data_loader, device, scheduler, optimizer):
     model = model.train()

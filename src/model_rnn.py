@@ -81,8 +81,10 @@ def create_dataloader(df, tokenizer, max_len, batch_size):
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 df = pd.read_csv("./dataset/tweets.csv")
-df_train, df_test = train_test_split(df, test_size=TEST_SIZE, random_state=RANDOM_SEED)
-df_val, df_test = train_test_split(df_test, test_size=.5, random_state=RANDOM_SEED)
+df_train, df_test = train_test_split(
+    df, test_size=TEST_SIZE, random_state=RANDOM_SEED)
+df_val, df_test = train_test_split(
+    df_test, test_size=.5, random_state=RANDOM_SEED)
 
 train = create_dataloader(df_train, tokenizer, MAX_LEN, batch_size=BATCH)
 val = create_dataloader(df_val, tokenizer, MAX_LEN, batch_size=BATCH)
@@ -120,10 +122,11 @@ optimizer = AdamW(model.parameters(), lr=2e-5, correct_bias=False)
 
 total_steps = len(train) * EPOCHS
 scheduler = get_linear_schedule_with_warmup(
-  optimizer,
-  num_warmup_steps=0,
-  num_training_steps=total_steps
+    optimizer,
+    num_warmup_steps=0,
+    num_training_steps=total_steps
 )
+
 
 def train_epoch(model, data_loader, optimizer, scheduler, device):
     model = model.train()
@@ -141,6 +144,7 @@ def train_epoch(model, data_loader, optimizer, scheduler, device):
         optimizer.step()
         scheduler.step()
         optimizer.zero_grad()
+
 
 def eval_model(model, data_loader, device):
     model = model.eval()
@@ -163,6 +167,7 @@ def eval_model(model, data_loader, device):
             val_acc.append(acc)
 
     return np.mean(val_acc), np.mean(losses)
+
 
 def metric(model, data_loader, device):
     model = model.eval()
