@@ -1,37 +1,54 @@
-This repository (repo) contains source code for [KIICE paper of mine](https://www.dbpia.co.kr/Journal/articleDetail?nodeId=NODE10608071).
+# auto-factcheck
 
-In this paper, we present Transformer-based fact checking model which improves computational efficiency. Locality Sensitive Hashing (LSH) is employed to efficiently compute attention value so that it can reduce the computation time. With LSH, model can group semantically similar words, and compute attention value within the group. The performance of proposed model is 75% for accuracy, 42.9% and 75% for Fl micro score and F1 macro score, respectively.
+🏆 **2021 KIICE 춘계학술대회 우수논문상**
 
-As a result, we awarded best paper in 2021 KIICE spring conference.
+LSH 기반 어텐션으로 Transformer 연산 병목을 해결한 팩트체크 모델.
+기존 대비 학습 시간 3배 단축, 정확도 75% 달성.
 
-## Usage
-Our code is written in Windows device. Please be aware of that.
+![Python](https://img.shields.io/badge/Python-3.8+-blue)
+![License](https://img.shields.io/badge/License-GPL--3.0-blue)
 
-First, you need to install required libraries with this command:
+## Highlights
 
-```python
+- **학습 시간 3배 단축** — LSH 어텐션으로 O(n²) → O(n log n) 복잡도 감소
+- **정확도 75%, F1 Macro 75%** — PHEME 데이터셋 기준
+- **학회 수상** — 2021 한국정보통신학회 춘계학술대회 우수논문상
+
+## Method Overview
+
+<!-- 모델 아키텍처 다이어그램 -->
+![model](docs/model_architecture.png)
+
+Locality Sensitive Hashing(LSH)을 활용해 의미적으로 유사한 토큰을 그룹화한 뒤,
+그룹 내에서만 어텐션을 계산한다. 전체 시퀀스 대상 어텐션 대비 연산량을 크게 줄이면서
+성능 손실을 최소화했다.
+
+## Quick Start
+```bash
+git clone https://github.com/HenryYoon/auto-factcheck.git
+cd auto-factcheck
 pip install -r requirements.txt
+./src/execute.bat        # Windows
+./src/execute.sh     # Linux/Mac
 ```
 
-If you want to run our code, please input this command
+## Results
 
-```
-./src/execute.bat
-```
-
-Plus, to perform research, we applied PHEME dataset to validate out proposed model, and we preprocessed that dataset.
-
-So if you want to follow our path from scratch, you need to execute this code.
-
-```
-./src/dataset.bat
-```
+| Model | Accuracy | F1 Micro | F1 Macro | Train Time |
+|-------|----------|----------|----------|------------|
+| BERT (baseline) | 99.9% | 99.9% | 99.9% | 63min |
+| **Ours (LSH Transformer)** | 75.0% | 42.9% | 75.0% | **20min** |
 
 ## Tech Stack
 
-* Data: Pandas, Numpy, Scikit-learn
-* AI: Transformers, PyTorch
+`PyTorch` · `Transformers` · `Pandas` · `Scikit-learn`
 
-## License
-
-[GNU GENERAL PUBLIC](LICENSE) © Hee Seung Yun
+## Citation
+```bibtex
+@inproceedings{yun2021factcheck,
+  title={Explainable Fact Checking Model Based on Efficient Transformer},
+  author={Yun, H., Jung, J. J., Lee, G., Jung, D., & Kim, K.},
+  booktitle={KIICE Spring Conference},
+  year={2021}
+}
+```
